@@ -130,6 +130,8 @@ static JanetEVGenericMessage janet_proc_wait_subr(JanetEVGenericMessage args) {
 
 [`janet_loop1_impl` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1575) (though actually there are four implementations (Windows, EPOLL, KQUEUE, and POLL)):
 
+EPOLL, KQUEUE, POLL:
+
 ```c
 void janet_loop1_impl(int has_timeout, JanetTimestamp timeout) {
   // ... elided ...
@@ -139,7 +141,25 @@ void janet_loop1_impl(int has_timeout, JanetTimestamp timeout) {
   // ... elided ...
 ```
 
+Windows:
+
+```c
+void janet_loop1_impl(int has_timeout, JanetTimestamp timeout) {
+  // ... elided ...
+
+            /* Custom event */
+            JanetSelfPipeEvent *response = (JanetSelfPipeEvent *)(overlapped);
+            if (NULL != response->cb) {
+                response->cb(response->msg);
+            }
+            janet_ev_dec_refcount();
+
+  // ... elided ...
+```
+
 [`janet_ev_handle_selfpipe` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1414-L1429):
+
+EPOLL, KQUEUE, POLL:
 
 ```c
 /* Handle events from the self pipe inside the event loop */

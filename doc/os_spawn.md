@@ -19,10 +19,35 @@ additional field :pid on unix-like platforms.  Use `(os/proc-wait
 proc)` to rejoin the subprocess. After waiting completes, proc gains a
 new field, :return-code.
 
-> info for website docs?
+> below seems true, but possibly info for website docs
 
-If :x flag is used, a non-zero exit code will cause `os/proc-wait` to
+If :x flag is used, a non-zero exit code will cause certain functions
+such as `os/proc-wait` or `os/proc-close` (possibly others too?) to
 raise an error.
+
+```janet
+(def p (os/spawn ["ls" "1"] :px))
+
+(try
+  (os/proc-wait p)
+  ([e]
+   (eprint "error from os/proc-wait")
+   (eprint e)))
+```
+
+```janet
+(def p (os/spawn ["ls" "1"] :px))
+
+(try
+  (os/proc-close p)
+  ([e]
+   (eprint "error from os/proc-close")
+   (eprint e)))
+```
+
+> below seems true, but possibly better for website docs (e.g. the
+> functionality of `os/proc-close` is duplicating info from
+> `os/proc-close`'s docstring)
 
 If pipe streams created with :pipe keyword are not closed soon enough,
 a janet process can run out of file descriptors. They can be closed
@@ -32,10 +57,17 @@ individually, or `os/proc-close` can close all pipe streams on proc.
 > it's a likely risk?  see for example
 > [this](https://unix.stackexchange.com/questions/11946/how-big-is-the-pipe-buffer)
 
-If pipe streams aren't read before `os/proc-wait` finishes, then pipe
-buffers become full, and the process cannot finish because the process
-cannot print more on pipe buffers which are already full. If the
-process cannot finish, `os/proc-wait` cannot finish either.
+> current sense is that it's not always the case, more like "pipe
+> buffers can become full" and that can lead to issues.
+
+> it seems that enough needs to be read from the pipe buffer so that a
+> process can finish writing what it needs to
+
+If pipe streams aren't read (add "enough" or "sufficiently" here?)
+before `os/proc-wait` finishes, then pipe buffers can become full, and
+the process cannot finish because the process cannot print more on
+pipe buffers which are already full. If the process cannot finish,
+`os/proc-wait` cannot finish either.
 
 ## C Implementation
 

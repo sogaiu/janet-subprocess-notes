@@ -183,6 +183,16 @@ void janet_signalv(JanetSignal sig, Janet message) {
     return sig;
 ```
 
+[`janet_try` in `janet.h`](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/include/janet.h#L1791-L1795):
+
+```c
+#if defined(JANET_BSD) || defined(JANET_APPLE)
+#define janet_try(state) (janet_try_init(state), (JanetSignal) _setjmp((state)->buf))
+#else
+#define janet_try(state) (janet_try_init(state), (JanetSignal) setjmp((state)->buf))
+#endif
+```
+
 [`janet_try_init`, and `janet_restore` in `vm.c`](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/vm.c#L1427-L1443):
 
 ```c
@@ -203,16 +213,6 @@ void janet_restore(JanetTryState *state) {
     janet_vm.signal_buf = state->vm_jmp_buf;
     janet_vm.return_reg = state->vm_return_reg;
 }
-```
-
-[`janet_try` in `janet.h`](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/include/janet.h#L1791-L1795):
-
-```c
-#if defined(JANET_BSD) || defined(JANET_APPLE)
-#define janet_try(state) (janet_try_init(state), (JanetSignal) _setjmp((state)->buf))
-#else
-#define janet_try(state) (janet_try_init(state), (JanetSignal) setjmp((state)->buf))
-#endif
 ```
 
 [`JanetTryState` in `janet.h`](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/include/janet.h#L1234-L1245):

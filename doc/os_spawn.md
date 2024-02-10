@@ -19,8 +19,8 @@ additional field :pid on unix-like platforms.  Use `(os/proc-wait
 proc)` to rejoin the subprocess. After waiting completes, proc gains a
 new field, :return-code.
 
-> below seems true (even for Windows), but possibly info for website
-> docs.
+> below seems true (even for Windows), initially thought it would be
+> better to put the info at the website, but now am not so sure
 
 If :x flag is used, a non-zero exit code will cause certain functions
 such as `os/proc-wait`, `os/proc-close`, and `os/proc-kill` (things

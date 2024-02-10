@@ -59,6 +59,10 @@ If pipe streams created with :pipe keyword are not closed soon enough,
 a janet process can run out of file descriptors. They can be closed
 individually, or `os/proc-close` can close all pipe streams on proc.
 
+> though important, stuff below here appears to be generic programming
+> info (for certain operating systems?) and as such doesn't feel right
+> in a docstring.  in the website docs might be ok though.
+
 > is it always true that "pipe buffers become full", or is it that
 > it's a likely risk?  see for example
 > [this](https://unix.stackexchange.com/questions/11946/how-big-is-the-pipe-buffer)

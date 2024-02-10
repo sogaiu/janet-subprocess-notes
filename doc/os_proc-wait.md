@@ -83,6 +83,54 @@ void janet_ev_threaded_call(JanetThreadedSubroutine fp, JanetEVGenericMessage ar
 }
 ```
 
+[`janet_thread_body` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1954-L1996):
+
+```c
+#ifdef JANET_WINDOWS
+static DWORD WINAPI janet_thread_body(LPVOID ptr) {
+    JanetEVThreadInit *init = (JanetEVThreadInit *)ptr;
+    JanetEVGenericMessage msg = init->msg;
+    JanetThreadedSubroutine subr = init->subr;
+    JanetThreadedCallback cb = init->cb;
+    JanetHandle iocp = init->write_pipe;
+    /* Reuse memory from thread init for returning data */
+    init->msg = subr(msg);
+    init->cb = cb;
+    janet_assert(PostQueuedCompletionStatus(iocp,
+                                            sizeof(JanetSelfPipeEvent),
+                                            0,
+                                            (LPOVERLAPPED) init),
+                 "failed to post completion event");
+    return 0;
+}
+#else
+static void *janet_thread_body(void *ptr) {
+    JanetEVThreadInit *init = (JanetEVThreadInit *)ptr;
+    JanetEVGenericMessage msg = init->msg;
+    JanetThreadedSubroutine subr = init->subr;
+    JanetThreadedCallback cb = init->cb;
+    int fd = init->write_pipe;
+    janet_free(init);
+    JanetSelfPipeEvent response;
+    memset(&response, 0, sizeof(response));
+    response.msg = subr(msg);
+    response.cb = cb;
+    /* handle a bit of back pressure before giving up. */
+    int tries = 4;
+    while (tries > 0) {
+        int status;
+        do {
+            status = write(fd, &response, sizeof(response));
+        } while (status == -1 && errno == EINTR);
+        if (status > 0) break;
+        sleep(1);
+        tries--;
+    }
+    return NULL;
+}
+#endif
+```
+
 [`janet_proc_wait_subr` and `janet_proc_wait_cb` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L482-L521):
 
 ```c

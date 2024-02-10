@@ -11,7 +11,11 @@ subprocess return code.
 
 Should not be called twice on the same process.
 
+> not sure what this means, but also for website docs?
+
 If cancelled with an error(?), it still finishes in the background.
+
+> how was the first sentence below arrived at?
 
 The process is not cleaned up by the operating system until after
 `os/proc-wait` finishes.  Thus, if `os/proc-wait` is not called, a

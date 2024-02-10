@@ -39,7 +39,7 @@ process cannot finish, `os/proc-wait` cannot finish either.
 
 ## C Implementation
 
-[`os_execute_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L1098-L1366)
+[`os_execute_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L1098-L1366):
 
 ```c
 static Janet os_execute_impl(int32_t argc, Janet *argv, JanetExecuteMode mode) {

@@ -19,7 +19,7 @@ process becomes a zombie process.
 
 ## C Implementation
 
-[`os_proc_wait_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L579-L617)
+[`os_proc_wait_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L579-L617):
 
 ```c
 #ifdef JANET_EV

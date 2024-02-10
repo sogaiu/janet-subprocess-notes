@@ -140,7 +140,7 @@ static void *janet_thread_body(void *ptr) {
 #endif
 ```
 
-[`janet_proc_wait_subr` and `janet_proc_wait_cb` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L482-L521):
+[`janet_proc_wait_subr` and `janet_proc_wait_cb` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L482-L544):
 
 ```c
 #ifdef JANET_EV
@@ -183,6 +183,29 @@ static JanetEVGenericMessage janet_proc_wait_subr(JanetEVGenericMessage args) {
 }
 
 #endif /* End windows check */
+
+/* Callback that is called in main thread when subroutine completes. */
+static void janet_proc_wait_cb(JanetEVGenericMessage args) {
+    JanetProc *proc = (JanetProc *) args.argp;
+    if (NULL != proc) {
+        int status = args.tag;
+        proc->return_code = (int32_t) status;
+        proc->flags |= JANET_PROC_WAITED;
+        proc->flags &= ~JANET_PROC_WAITING;
+        janet_gcunroot(janet_wrap_abstract(proc));
+        janet_gcunroot(janet_wrap_fiber(args.fiber));
+        if ((status != 0) && (proc->flags & JANET_PROC_ERROR_NONZERO)) {
+            JanetString s = janet_formatc("command failed with non-zero exit code %d", status);
+            janet_cancel(args.fiber, janet_wrap_string(s));
+        } else {
+            if (janet_fiber_can_resume(args.fiber)) {
+                janet_schedule(args.fiber, janet_wrap_integer(status));
+            }
+        }
+    }
+}
+
+#endif /* End ev check */
 ```
 
 [`janet_loop1_impl` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1575) (though actually there are four implementations (Windows, EPOLL, KQUEUE, and POLL)):

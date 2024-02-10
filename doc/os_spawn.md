@@ -2,7 +2,7 @@
 
 ## Information
 
-(os/spawn args &opt flags env)
+`(os/spawn args &opt flags env)`
 
 Execute a program on the system and return a handle to the process.
 

@@ -2,7 +2,7 @@
 
 ## Information
 
-(os/proc-kill proc &opt wait signal)
+`(os/proc-kill proc &opt wait signal)`
 
 Kill a subprocess by sending `SIGKILL` to it on POSIX systems, or
 by closing the process handle on Windows.

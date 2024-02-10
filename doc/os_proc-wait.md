@@ -2,7 +2,7 @@
 
 ## Information
 
-(os/proc-wait proc)
+`(os/proc-wait proc)`
 
 Suspend the current fiber until the subprocess completes. Returns the
 subprocess return code.

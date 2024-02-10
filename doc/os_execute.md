@@ -2,7 +2,7 @@
 
 ## Information
 
-(os/execute args &opt flags env)
+`(os/execute args &opt flags env)`
 
 Execute a program on the system.
 

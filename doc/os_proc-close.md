@@ -2,7 +2,7 @@
 
 ## Information
 
-(os/proc-close proc)
+`(os/proc-close proc)`
 
 Close pipes created by `os/spawn` if they have not been closed, then
 wait on `proc` if it hasn't been waited on already.  Returns nil.

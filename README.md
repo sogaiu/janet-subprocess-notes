@@ -21,7 +21,7 @@
 
 * Look to the
   [`sh.janet`](https://github.com/janet-lang/spork/blob/7a4eff4bfb9486a6c6079ee8bb12e6789cce4564/spork/sh.janet)
-  examples. They are written that way for a reason, [using `ev/gather`
+  examples. They are written that way for a reason [using `ev/gather`
   to avoid race
   conditions](https://github.com/janet-lang/spork/blob/7a4eff4bfb9486a6c6079ee8bb12e6789cce4564/spork/sh.janet#L44-L47). It's
   surprisingly tricky to get this correct - this is why [Python has a
@@ -31,7 +31,7 @@
 
 * If you use `os/spawn`, I would always be sure to use `os/proc-wait`.
 
-edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922655204
+Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922655204
 
 ## Credits
 

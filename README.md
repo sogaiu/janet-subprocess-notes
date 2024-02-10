@@ -10,17 +10,16 @@
 
 ## Misc Info
 
-* you don't need `ev/spawn-thread`. This is just going to cause you
-  headaches. Use `ev/spawn` to run a background task unless the
-  background task makes a blocking call. Neither `os/execute` nor
-  `os/spawn` block. I write medium sized, complete programs without
-  using threads at all if I can avoid it.
+* Use `ev/spawn` to run a background task unless the background task
+  makes a blocking call. Neither `os/execute` nor `os/spawn` block. I
+  write medium sized, complete programs without using threads at all
+  if I can avoid it.
 
-* don't redirect output to pipes that are never read from. This causes
+* Don't redirect output to pipes that are never read from. This causes
   things to hang in any language. It's how pipes work on Unix-likes
   and most languages work this way.
 
-* look to the
+* Look to the
   [`sh.janet`](https://github.com/janet-lang/spork/blob/7a4eff4bfb9486a6c6079ee8bb12e6789cce4564/spork/sh.janet)
   examples. They are written that way for a reason, [using `ev/gather`
   to avoid race
@@ -30,7 +29,7 @@
   subprocess.communicate](https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate)
   to just "do the IO" after spawning a process.
 
-* if you use `os/spawn`, I would always be sure to use `os/proc-wait`.
+* If you use `os/spawn`, I would always be sure to use `os/proc-wait`.
 
 edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922655204
 

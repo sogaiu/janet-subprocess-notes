@@ -33,3 +33,8 @@
 * if you use `os/spawn`, I would always be sure to use `os/proc-wait`.
 
 edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922655204
+
+## Credits
+
+* amano.kenji
+* bakpakin

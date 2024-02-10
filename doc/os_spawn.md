@@ -19,11 +19,17 @@ additional field :pid on unix-like platforms.  Use `(os/proc-wait
 proc)` to rejoin the subprocess. After waiting completes, proc gains a
 new field, :return-code.
 
-> below seems true, but possibly info for website docs
+> below seems true (even for Windows), but possibly info for website
+> docs.
 
 If :x flag is used, a non-zero exit code will cause certain functions
-such as `os/proc-wait` or `os/proc-close` (possibly others too?) to
-raise an error.
+such as `os/proc-wait`, `os/proc-close`, and `os/proc-kill` (things
+that lead to a call of `os_proc_wait_impl` [1] basically can trigger
+[this code](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L533-L535)) 
+to raise an error.
+
+[1] [`os/execute` (but not `os/spawn`) also calls
+`os_proc_wait_impl`.](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L1360-L1361)
 
 ```janet
 (def p (os/spawn ["ls" "1"] :px))

@@ -11,9 +11,7 @@
 ## Misc Info
 
 * Use `ev/spawn` to run a background task unless the background task
-  makes a blocking call. Neither `os/execute` nor `os/spawn` block. I
-  write medium sized, complete programs without using threads at all
-  if I can avoid it.
+  makes a blocking call. Neither `os/execute` nor `os/spawn` block.
 
 * Don't redirect output to pipes that are never read from. This causes
   things to hang in any language. It's how pipes work on Unix-likes

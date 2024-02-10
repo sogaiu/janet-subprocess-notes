@@ -35,8 +35,8 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   scripting language - if you want more info on this, read the man
   pages for waitpid(2).
 
-* Also notice how in sh.janet, `os/proc-wait` and `ev/read` run in
-  parallel.
+* [Also notice how in sh.janet, `os/proc-wait` and `ev/read` run in
+  parallel.](https://github.com/janet-lang/spork/blob/7a4eff4bfb9486a6c6079ee8bb12e6789cce4564/spork/sh.janet#L29-L31)
 
 * As far as race conditions, I was mainly talking about the general
   case - depending on what program you run, some things will work,

@@ -31,6 +31,23 @@
 
 Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922655204
 
+* The reason you call `os/proc-wait` is to avoid zombies. Same as any
+  scripting language - if you want more info on this, read the man
+  pages for waitpid(2).
+
+* Also notice how in sh.janet, `os/proc-wait` and `ev/read` run in
+  parallel.
+
+* As far as race conditions, I was mainly talking about the general
+  case - depending on what program you run, some things will work,
+  some won't. Programs like 'sed' that incrementally read from stdin
+  and then output text in no particular manner can do this quite
+  easily. There are a number of other bugs in the issue tracker where
+  we figured this stuff out and made things work reliably with the
+  patterns in sh.janet.
+
+Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922894977
+
 ## Credits
 
 * amano.kenji

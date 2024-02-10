@@ -128,6 +128,38 @@ static JanetEVGenericMessage janet_proc_wait_subr(JanetEVGenericMessage args) {
 #endif /* End windows check */
 ```
 
+[`janet_loop1_impl` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1575) (though actually there are four implementations (Windows, EPOLL, KQUEUE, and POLL)):
+
+```c
+void janet_loop1_impl(int has_timeout, JanetTimestamp timeout) {
+  // ... elided ...
+
+            janet_ev_handle_selfpipe();
+
+  // ... elided ...
+```
+
+[`janet_ev_handle_selfpipe` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1414-L1429):
+
+```c
+/* Handle events from the self pipe inside the event loop */
+static void janet_ev_handle_selfpipe(void) {
+    JanetSelfPipeEvent response;
+    int status;
+recur:
+    do {
+        status = read(janet_vm.selfpipe[0], &response, sizeof(response));
+    } while (status == -1 && errno == EINTR);
+    if (status > 0) {
+        if (NULL != response.cb) {
+            response.cb(response.msg);
+            janet_ev_dec_refcount();
+        }
+        goto recur;
+    }
+}
+```
+
 [`janet_await` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L583-L587):
 
 ```c

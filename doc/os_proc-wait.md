@@ -48,6 +48,51 @@ os_proc_wait_impl(JanetProc *proc) {
 }
 ```
 
+[`janet_proc_wait_subr` and `janet_proc_wait_cb` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L482-L521):
+
+```c
+#ifdef JANET_EV
+
+#ifdef JANET_WINDOWS
+
+static JanetEVGenericMessage janet_proc_wait_subr(JanetEVGenericMessage args) {
+    JanetProc *proc = (JanetProc *) args.argp;
+    WaitForSingleObject(proc->pHandle, INFINITE);
+    DWORD exitcode = 0;
+    GetExitCodeProcess(proc->pHandle, &exitcode);
+    args.tag = (int32_t) exitcode;
+    return args;
+}
+
+#else /* windows check */
+
+static int proc_get_status(JanetProc *proc) {
+    /* Use POSIX shell semantics for interpreting signals */
+    int status = 0;
+    pid_t result;
+    do {
+        result = waitpid(proc->pid, &status, 0);
+    } while (result == -1 && errno == EINTR);
+    if (WIFEXITED(status)) {
+        status = WEXITSTATUS(status);
+    } else if (WIFSTOPPED(status)) {
+        status = WSTOPSIG(status) + 128;
+    } else {
+        status = WTERMSIG(status) + 128;
+    }
+    return status;
+}
+
+/* Function that is called in separate thread to wait on a pid */
+static JanetEVGenericMessage janet_proc_wait_subr(JanetEVGenericMessage args) {
+    JanetProc *proc = (JanetProc *) args.argp;
+    args.tag = proc_get_status(proc);
+    return args;
+}
+
+#endif /* End windows check */
+```
+
 [`janet_await` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L583-L587):
 
 ```c

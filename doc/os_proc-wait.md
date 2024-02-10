@@ -48,6 +48,41 @@ os_proc_wait_impl(JanetProc *proc) {
 }
 ```
 
+[`janet_ev_threaded_call` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L1998-L2027):
+
+```c
+void janet_ev_threaded_call(JanetThreadedSubroutine fp, JanetEVGenericMessage arguments, JanetThreadedCallback cb) {
+    JanetEVThreadInit *init = janet_malloc(sizeof(JanetEVThreadInit));
+    if (NULL == init) {
+        JANET_OUT_OF_MEMORY;
+    }
+    init->msg = arguments;
+    init->subr = fp;
+    init->cb = cb;
+
+#ifdef JANET_WINDOWS
+    init->write_pipe = janet_vm.iocp;
+    HANDLE thread_handle = CreateThread(NULL, 0, janet_thread_body, init, 0, NULL);
+    if (NULL == thread_handle) {
+        janet_free(init);
+        janet_panic("failed to create thread");
+    }
+    CloseHandle(thread_handle); /* detach from thread */
+#else
+    init->write_pipe = janet_vm.selfpipe[1];
+    pthread_t waiter_thread;
+    int err = pthread_create(&waiter_thread, &janet_vm.new_thread_attr, janet_thread_body, init);
+    if (err) {
+        janet_free(init);
+        janet_panicf("%s", strerror(err));
+    }
+#endif
+
+    /* Increment ev refcount so we don't quit while waiting for a subprocess */
+    janet_ev_inc_refcount();
+}
+```
+
 [`janet_proc_wait_subr` and `janet_proc_wait_cb` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L482-L521):
 
 ```c

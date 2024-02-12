@@ -10,6 +10,23 @@ If `proc` has already been waited on, return nil without attempting to
 wait again.  Otherwise, wait on `proc`, and when waiting completes,
 return the related exit code.
 
+## Sample Code
+
+```janet
+(def p (os/spawn ["ls"] :px))
+
+# prints exit code
+(pp (os/proc-close p))
+```
+
+```janet
+(def p (os/spawn ["ls"] :px))
+(os/proc-wait p)
+
+# prints nil because p has already been waited on
+(pp (os/proc-close p))
+```
+
 ## C Implementation
 
 [`os/proc-close` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L772-L797):

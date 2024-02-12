@@ -4,8 +4,11 @@
 
 `(os/proc-close proc)`
 
-Close pipes created by `os/spawn` if they have not been closed, then
-wait on `proc` if it hasn't been waited on already.  Returns nil.
+Close pipes created by `os/spawn` if they have not been closed.
+
+If `proc` has already been waited on, return nil without attempting to
+wait again.  Otherwise, wait on `proc`, and when waiting completes,
+return the related exit code.
 
 ## C Implementation
 

@@ -24,6 +24,18 @@ The process is not cleaned up by the operating system until after
 `os/proc-wait` finishes.  Thus, if `os/proc-wait` is not called, a
 process becomes a zombie process.
 
+## Sample Code
+
+```janet
+(def p (os/spawn ["ls"] :px))
+
+# print exit code
+(pp (os/proc-wait p))
+
+# errors
+(pp (os/proc-wait p))
+```
+
 ## C Implementation
 
 [`os_proc_wait_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L579-L617):

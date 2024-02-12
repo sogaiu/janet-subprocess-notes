@@ -7,9 +7,7 @@
 Suspend the current fiber until the subprocess completes. Returns the
 subprocess return code.
 
-> info for website docs?
-
-Should not be called twice on the same process.
+Errors if called on a process more than once.
 
 > not sure what this means, but also for website docs?
 

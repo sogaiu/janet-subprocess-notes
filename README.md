@@ -7,6 +7,8 @@
 * [os/proc-wait](doc/os_proc-wait.md)
 * [os/proc-close](doc/os_proc-close.md)
 * [os/proc-kill](doc/os_proc-kill.md)
+* [ev/with-deadline](doc/ev_with-deadline.md)
+* [ev/deadline](doc/ev_deadline.md)
 
 ## Misc Info
 

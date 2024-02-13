@@ -22,13 +22,14 @@ new field, :return-code.
 > below seems true (even for Windows), initially thought it would be
 > better to put the info at the website, but now am not so sure
 
-If :x flag is used, a non-zero exit code will cause certain functions
-such as `os/proc-wait`, `os/proc-close`, and `os/proc-kill` (things
-that lead to a call of `os_proc_wait_impl` [1] basically can trigger
-[this code](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L533-L535)) 
+If :x flag is used, a non-zero exit code will cause calls to certain
+functions such as `os/proc-wait`, `os/proc-close`, and `os/proc-kill`
+(things that lead to a call of `os_proc_wait_impl` [1] basically can
+trigger [this
+code](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L533-L535))
 to raise an error.
 
-[1] [`os/execute` (but not `os/spawn`) also calls
+[1] [`os/execute` (but not `os/spawn`) can also call
 `os_proc_wait_impl`.](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L1360-L1361)
 
 ```janet

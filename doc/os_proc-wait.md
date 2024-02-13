@@ -9,7 +9,8 @@ subprocess return code.
 
 Errors if called on a process more than once.
 
-> not sure what this means, but also for website docs?
+> not sure what the following sentence this means, but also for
+> website docs?
 
 If cancelled with an error(?), it still finishes in the background.
 

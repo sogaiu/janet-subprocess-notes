@@ -219,3 +219,30 @@ static int janet_q_push_head(JanetQueue *q, void *item, size_t itemsize) {
     return 0;
 }
 ```
+
+[`janet_q_pop` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L178-L183):
+
+```c
+static int janet_q_pop(JanetQueue *q, void *out, size_t itemsize) {
+    if (q->head == q->tail) return 1;
+    memcpy(out, (char *) q->data + itemsize * q->head, itemsize);
+    q->head = q->head + 1 < q->capacity ? q->head + 1 : 0;
+    return 0;
+}
+```
+
+[`janet_loop1` running scheduled fibers bit in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L1312-L1322):
+
+```c
+    /* Run scheduled fibers unless interrupts need to be handled. */
+    while (janet_vm.spawn.head != janet_vm.spawn.tail) {
+        /* Don't run until all interrupts have been marked as handled by calling janet_interpreter_interrupt_handled */
+        if (janet_vm.auto_suspend) break;
+        JanetTask task = {NULL, janet_wrap_nil(), JANET_SIGNAL_OK, 0};
+        janet_q_pop(&janet_vm.spawn, &task, sizeof(task));
+        if (task.fiber->gc.flags & JANET_FIBER_EV_FLAG_SUSPENDED) janet_ev_dec_refcount();
+        task.fiber->gc.flags &= ~(JANET_FIBER_EV_FLAG_CANCELED | JANET_FIBER_EV_FLAG_SUSPENDED);
+        if (task.expected_sched_id != task.fiber->sched_id) continue;
+        Janet res;
+        JanetSignal sig = janet_continue_signal(task.fiber, task.value, &res, task.sig);
+```

@@ -24,17 +24,20 @@ Returns `tocancel`.
 (def cancel-wait (* 2 check-wait))
 (def deadline (* 0.5 check-wait))
 
-(ev/deadline deadline
-             (ev/spawn
-               (print "tocancel: started")
-               (printf "tocancel: waiting: %n sec" cancel-wait)
-               (ev/sleep cancel-wait)
-               (print "tocancel: ended"))
-             (ev/spawn
-               (print "tocheck: started")
-               (printf "tocheck: waiting: %n sec" check-wait)
-               (ev/sleep check-wait)
-               (print "tocheck: ended")))
+(ev/deadline
+  deadline
+  (ev/go
+    (fiber/new (fn []
+                 (print "tocancel: started")
+                 (printf "tocancel: waiting: %n sec" cancel-wait)
+                 (ev/sleep cancel-wait)
+                 (print "tocancel: ended"))))
+  (ev/go
+    (fiber/new (fn []
+                 (print "tocheck: started")
+                 (printf "tocheck: waiting: %n sec" check-wait)
+                 (ev/sleep check-wait)
+                 (print "tocheck: ended")))))
 ```
 
 Sample output:

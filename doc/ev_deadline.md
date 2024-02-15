@@ -16,7 +16,36 @@ Returns `tocancel`.
 
 ## Sample Code
 
-XXX: to be added
+```janet
+(def check-wait 1.1)
+(def cancel-wait (* 2 check-wait))
+(def deadline (* 0.5 check-wait))
+
+(ev/deadline deadline
+             (ev/spawn
+               (print "tocancel: started")
+               (printf "tocancel: waiting: %n sec" cancel-wait)
+               (ev/sleep cancel-wait)
+               (print "tocancel: ended"))
+             (ev/spawn
+               (print "tocheck: started")
+               (printf "tocheck: waiting: %n sec" check-wait)
+               (ev/sleep check-wait)
+               (print "tocheck: ended")))
+```
+
+Sample output:
+
+```
+tocancel: started
+tocancel: waiting: 2.2 sec
+tocheck: started
+tocheck: waiting: 1.1 sec
+error: deadline expired
+  in ev/sleep [src/core/ev.c] on line 2938
+  in _spawn [ev-deadline.janet] on line 9, column 16
+tocheck: ended
+```
 
 ## C Implementation
 

@@ -10,10 +10,39 @@
 * [ev/with-deadline](doc/ev_with-deadline.md)
 * [ev/deadline](doc/ev_deadline.md)
 
-## Things that turned up
+## Official Doc Snippets
+
+* Each root-fiber, or task, is a fiber that will be automatically
+  resumed when an event (or sequence of events) that it is waiting for
+  occurs.  Generally, one should not manually resume tasks - the event
+  loop will call resume when the completion event occurs.
+
+* To be precise, a task is just any fiber that was scheduled to run by
+  the event loop.
+
+* A default Janet program has a single task that will run until
+  complete.  To create new tasks, Janet provides two built-in
+  functions - `ev/go` and `ev/call`.
+
+## Questions
+
+* What does it mean for one fiber to be a child fiber of another
+  (from the perspective of Janet's C source code)?
+
+* What are all of the functions that can block apart from the
+  following?
+
+  * all functions in `file/`
+  * `os/sleep`
+  * `getline`
 
 * There appear to be at least two types of fibers in Janet.  Those
-  that end up on the event loop and those that don't.
+  that end up on the event loop and those that don't.  Is it fair to
+  make this distinction using the term "task" to describe the fibers
+  that end up on the event loop and may be "non-task" for those that
+  don't?
+
+* Are the terms "root-fiber" and "task" equivalent?
 
 ## Misc Info
 

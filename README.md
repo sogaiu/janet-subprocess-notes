@@ -10,6 +10,11 @@
 * [ev/with-deadline](doc/ev_with-deadline.md)
 * [ev/deadline](doc/ev_deadline.md)
 
+## Things that turned up
+
+* There appear to be at least two types of fibers in Janet.  Those
+  that end up on the event loop and those that don't.
+
 ## Misc Info
 
 * Use `ev/spawn` to run a background task unless the background task

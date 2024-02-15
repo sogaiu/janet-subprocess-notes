@@ -4,6 +4,9 @@
 
 `(ev/deadline sec &opt tocancel tocheck)`
 
+> may be the argument fibers have to be of the type that are on the
+> event loop?
+
 Set a deadline for a fiber `tocheck`.
 
 If `tocheck` is not finished after `sec` seconds, `tocancel` will be

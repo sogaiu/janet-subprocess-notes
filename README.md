@@ -62,7 +62,7 @@
   > outermost fiber on the stack, it is considered a root fiber. All
   > fibers scheduled with ev/go or by the event loop are root fibers,
   > and thus cannot be cancelled or resumed with `cancel` or `resume`
-  > - instead, use `ev/cancel` or `ev/go`.
+  > \- instead, use `ev/cancel` or `ev/go`.
 
   (source: text from commit addressing #920)
 

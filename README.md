@@ -66,6 +66,13 @@
 
   (source: text from commit addressing #920)
 
+  ```c
+  /* If a "task" fiber is trying to be used as a normal fiber, detect that. See bug #920.
+   * Fibers must be marked as root fibers manually, or by the ev scheduler. */
+  ```
+
+  (source: [comment in vm.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/vm.c#L1401-L1402))
+
 * Are the terms "root-fiber" and "task" equivalent?  It seems they are
   at least close.  (Peripheral case: if janet is compiled without ev
   support, are there tasks?  There may be root-fibers...).

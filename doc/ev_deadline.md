@@ -5,8 +5,8 @@
 `(ev/deadline sec &opt tocancel tocheck)`
 
 > may be the argument fibers have to be of the type that are on the
-> event loop?  seems the answer is yes.  there is no error indication
-> when passing normal fibers though.
+> event loop?  seems the answer is yes, at least for `tocancel`.
+> there is no error indication when passing a normal fiber though.
 
 Set a deadline for a fiber `tocheck`.
 
@@ -25,33 +25,42 @@ Returns `tocancel`.
 (def cancel-wait (* 2 check-wait))
 (def deadline (* 0.5 check-wait))
 
-(ev/deadline
-  deadline
+(var tocancel-fib nil)
+(var tocheck-fib nil)
+
+(set tocancel-fib
   (ev/go
-    (fiber/new (fn []
-                 (print "tocancel: started")
-                 (printf "tocancel: waiting: %n sec" cancel-wait)
-                 (ev/sleep cancel-wait)
-                 (print "tocancel: ended"))))
-  (ev/go
-    (fiber/new (fn []
+    (fiber/new
+      (fn []
+        (print "tocancel: started")
+        (set tocheck-fib
+             (fiber/new
+               (fn []
                  (print "tocheck: started")
                  (printf "tocheck: waiting: %n sec" check-wait)
                  (ev/sleep check-wait)
-                 (print "tocheck: ended")))))
+                 (print "tocheck: ended"))))
+        (resume tocheck-fib)
+        (printf "tocancel: waiting: %n sec" cancel-wait)
+        (ev/sleep cancel-wait)
+        (print "tocancel: ended")))))
+
+# yield so tocancel-fib can start
+(ev/sleep 0)
+
+(ev/deadline deadline tocancel-fib tocheck-fib)
 ```
 
 Sample output:
 
 ```
 tocancel: started
-tocancel: waiting: 2.2 sec
 tocheck: started
 tocheck: waiting: 1.1 sec
 error: deadline expired
   in ev/sleep [src/core/ev.c] on line 2938
-  in _spawn [ev-deadline.janet] on line 9, column 16
-tocheck: ended
+  in <anonymous> [ev-deadline.janet] on line 18, column 18
+  in <anonymous> [ev-deadline.janet] on line 20, column 9
 ```
 
 ## C Implementation

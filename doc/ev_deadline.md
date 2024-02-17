@@ -5,7 +5,8 @@
 `(ev/deadline sec &opt tocancel tocheck)`
 
 > may be the argument fibers have to be of the type that are on the
-> event loop?
+> event loop?  seems the answer is yes.  there is no error indication
+> when passing normal fibers though.
 
 Set a deadline for a fiber `tocheck`.
 

@@ -35,22 +35,6 @@
 * What does it mean for one fiber to be a child fiber of another
   (from the perspective of Janet's C source code)?
 
-* What are all of the functions that can block apart from the
-  following?
-
-  * all(?) functions in `file/`
-    * file/close
-    * file/flush
-    * file/lines
-    * file/open
-    * file/read
-    * file/seek
-    * file/tell
-    * file/temp
-    * file/write
-  * `os/sleep`
-  * `getline`
-
 * There appear to be at least two types of fibers in Janet.  Those
   that end up on the event loop and those that don't.  Is it fair to
   make this distinction using the term "task" to describe the fibers
@@ -76,6 +60,22 @@
 * Are the terms "root-fiber" and "task" equivalent?  It seems they are
   at least close.  (Peripheral case: if janet is compiled without ev
   support, are there tasks?  There may be root-fibers...).
+
+* What are all of the functions that can block apart from the
+  following?
+
+  * all(?) functions in `file/`
+    * file/close
+    * file/flush
+    * file/lines
+    * file/open
+    * file/read
+    * file/seek
+    * file/tell
+    * file/temp
+    * file/write
+  * `os/sleep`
+  * `getline`
 
 ## Glossary
 

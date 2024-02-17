@@ -48,7 +48,7 @@
   > and thus cannot be cancelled or resumed with `cancel` or `resume`
   > \- instead, use `ev/cancel` or `ev/go`.
 
-  (source: text from commit addressing #920)
+  (source: text from [commit addressing #920](https://github.com/janet-lang/janet/commit/a9f38dfce4e892dad370efe768bb3f59eb2b79ab))
 
   ```c
   /* If a "task" fiber is trying to be used as a normal fiber, detect that. See bug #920.

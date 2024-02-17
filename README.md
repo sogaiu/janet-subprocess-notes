@@ -59,6 +59,36 @@
 
 * Are the terms "root-fiber" and "task" equivalent?
 
+* Glossary
+
+   * fiber - allows a process to stop and resume execution later,
+     essentially enabling multiple returns from a function.
+
+     * ordinary, non-root
+
+     * task, root fiber - a fiber that will be automatically resumed
+       when an event (or sequence of events) that it is waiting for
+       occurs
+
+   * event loop - provides concurrency within a single thread by
+     allowing cooperating fibers to yield instead of blocking forward
+     progress
+
+   * channel - one of two methods of communication between tasks
+
+     * ordinary, non-threaded - allow the programmer to communicate by
+       sending any Janet value as messages, and only work inside a
+       thread - they do not allow communication between threads,
+       processes, or over the network.
+
+     * threaded - may be threaded has limits on what values can be
+       transferred -- ?unclear
+
+   * stream - one of two methods of communication between tasks.  They
+     are wrappers around file descriptors and operate on streams of
+     bytes.  Streams can communicate across threads, processes, and
+     across the network.
+
 ## Misc Info
 
 * Use `ev/spawn` to run a background task unless the background task

@@ -38,7 +38,16 @@
 * What are all of the functions that can block apart from the
   following?
 
-  * all functions in `file/`
+  * all(?) functions in `file/`
+    * file/close
+    * file/flush
+    * file/lines
+    * file/open
+    * file/read
+    * file/seek
+    * file/tell
+    * file/temp
+    * file/write
   * `os/sleep`
   * `getline`
 

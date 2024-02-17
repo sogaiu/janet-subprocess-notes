@@ -24,6 +24,12 @@
   complete.  To create new tasks, Janet provides two built-in
   functions - `ev/go` and `ev/call`.
 
+* You can get the currently executing task in Janet with
+  `(fiber/root)`.
+
+* The root fiber is the oldest ancestor that does not have a parent.
+  - the `fiber/root` docstring
+
 ## Questions
 
 * What does it mean for one fiber to be a child fiber of another

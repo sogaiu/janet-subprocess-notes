@@ -57,6 +57,15 @@
   that end up on the event loop and may be "non-task" for those that
   don't?
 
+  > The distinction between "task" fibers and normal fibers is now
+  > kept by a flag that is set when a fiber is resumed - if it is the
+  > outermost fiber on the stack, it is considered a root fiber. All
+  > fibers scheduled with ev/go or by the event loop are root fibers,
+  > and thus cannot be cancelled or resumed with `cancel` or `resume`
+  > - instead, use `ev/cancel` or `ev/go`.
+
+  (source: text from commit addressing #920)
+
 * Are the terms "root-fiber" and "task" equivalent?  It seems they are
   at least close.  (Peripheral case: if janet is compiled without ev
   support, are there tasks?  There may be root-fibers...).

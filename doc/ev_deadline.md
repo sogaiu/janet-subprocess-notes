@@ -147,14 +147,7 @@ JanetFiber *janet_loop1(void) {
                 janet_cancel(to.fiber, janet_cstringv("deadline expired"));
             }
         } else {
-            /* This is a timeout (for a function call, not a whole fiber) */
-            if (to.fiber->sched_id == to.sched_id) {
-                if (to.is_error) {
-                    janet_cancel(to.fiber, janet_cstringv("timeout"));
-                } else {
-                    janet_schedule(to.fiber, janet_wrap_nil());
-                }
-            }
+          // ... elided ...
         }
     }
 ```

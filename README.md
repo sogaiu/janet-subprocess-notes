@@ -59,7 +59,7 @@
 
 * Are the terms "root-fiber" and "task" equivalent?
 
-* Glossary
+## Glossary
 
    * fiber - allows a process to stop and resume execution later,
      essentially enabling multiple returns from a function.

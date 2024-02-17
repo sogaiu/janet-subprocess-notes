@@ -28,7 +28,7 @@
   `(fiber/root)`.
 
 * The root fiber is the oldest ancestor that does not have a parent.
-  - the `fiber/root` docstring
+  (source: the `fiber/root` docstring)
 
 ## Questions
 

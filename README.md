@@ -57,7 +57,9 @@
   that end up on the event loop and may be "non-task" for those that
   don't?
 
-* Are the terms "root-fiber" and "task" equivalent?
+* Are the terms "root-fiber" and "task" equivalent?  It seems they are
+  at least close.  (Peripheral case: if janet is compiled without ev
+  support, are there tasks?  There may be root-fibers...).
 
 ## Glossary
 

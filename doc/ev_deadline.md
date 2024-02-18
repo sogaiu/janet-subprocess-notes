@@ -62,7 +62,7 @@ error: deadline expired
 
 ## C Implementation
 
-[`ev/deadline` in ev.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L2953-L2963):
+[`ev/deadline` in `ev.c`](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/ev.c#L2953-L2963):
 
 ```c
     double sec = janet_getnumber(argv, 0);
@@ -90,7 +90,7 @@ typedef struct {
 } JanetTimeout;
 ```
 
-[`add_timeout` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L226-L254):
+[`add_timeout` in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L226-L254):
 
 ```c
 /* Add a timeout to the timeout min heap */
@@ -140,7 +140,7 @@ static void add_timeout(JanetTimeout to) {
     JanetTable signal_handlers;
 ```
 
-[`janet_loop1` scheduling expired timers bit in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L1294-L1310):
+[`janet_loop1` scheduling expired timers bit in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L1294-L1310):
 
 ```c
 JanetFiber *janet_loop1(void) {
@@ -159,7 +159,7 @@ JanetFiber *janet_loop1(void) {
     }
 ```
 
-[`peek_timeout` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L197-L202):
+[`peek_timeout` in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L197-L202):
 
 ```c
 /* Look at the next timeout value without removing it. */
@@ -170,7 +170,7 @@ static int peek_timeout(JanetTimeout *out) {
 }
 ```
 
-[`pop_timeout` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L204-L224):
+[`pop_timeout` in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L204-L224):
 
 ```c
 /* Remove the next timeout from the priority queue */
@@ -196,7 +196,7 @@ static void pop_timeout(size_t index) {
 }
 ```
 
-[`janet_cancel`, `janet_schedule`, and related in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L477-L508):
+[`janet_cancel`, `janet_schedule`, and related in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L477-L508):
 
 ```c
 /* Register a fiber to resume with value */
@@ -233,7 +233,7 @@ void janet_schedule(JanetFiber *fiber, Janet value) {
 }
 ```
 
-[`janet_q_push` and `janet_q_push_head` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L160-L176):
+[`janet_q_push` and `janet_q_push_head` in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L160-L176):
 
 ```c
 static int janet_q_push(JanetQueue *q, void *item, size_t itemsize) {
@@ -255,7 +255,7 @@ static int janet_q_push_head(JanetQueue *q, void *item, size_t itemsize) {
 }
 ```
 
-[`janet_q_pop` in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L178-L183):
+[`janet_q_pop` in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L178-L183):
 
 ```c
 static int janet_q_pop(JanetQueue *q, void *out, size_t itemsize) {
@@ -266,7 +266,7 @@ static int janet_q_pop(JanetQueue *q, void *out, size_t itemsize) {
 }
 ```
 
-[`janet_loop1` running scheduled fibers bit in ev.c](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L1312-L1322):
+[`janet_loop1` running scheduled fibers bit in `ev.c`](https://github.com/janet-lang/janet/blob/9142f38cbceb72e7d2d8a12846d2c22c2322fc34/src/core/ev.c#L1312-L1322):
 
 ```c
     /* Run scheduled fibers unless interrupts need to be handled. */

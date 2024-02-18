@@ -125,6 +125,63 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
 * What does it mean for one fiber to be a child fiber of another
   (from the perspective of Janet's C source code)?
 
+  Have seen the pattern of setting / ensuring a fiber's child and then
+  calling some kind of `janet_continue*` function, possibly followed
+  by setting the fiber's child field to `NULL`:
+
+    ```c
+        fiber->child = child;
+        JanetSignal sig = janet_continue_no_check(child, stack[C], &retreg);
+        if (sig != JANET_SIGNAL_OK && !(child->flags & (1 << sig))) {
+            vm_return(sig, retreg);
+        }
+        fiber->child = NULL;
+    ```
+
+    ```c
+        fiber->child = child;
+        JanetSignal sig = janet_continue_signal(child, stack[C], &retreg, JANET_SIGNAL_ERROR);
+        if (sig != JANET_SIGNAL_OK && !(child->flags & (1 << sig))) {
+            vm_return(sig, retreg);
+        }
+        fiber->child = NULL;
+    ```
+
+    ```c
+    /* Continue child fiber if it exists */
+    if (fiber->child) {
+        if (janet_vm.root_fiber == NULL) janet_vm.root_fiber = fiber;
+        JanetFiber *child = fiber->child;
+        uint32_t instr = (janet_stack_frame(fiber->data + fiber->frame)->pc)[0];
+        janet_vm.stackn++;
+        JanetSignal sig = janet_continue(child, in, &in);
+        janet_vm.stackn--;
+        if (janet_vm.root_fiber == fiber) janet_vm.root_fiber = NULL;
+        if (sig != JANET_SIGNAL_OK && !(child->flags & (1 << sig))) {
+            *out = in;
+            janet_fiber_set_status(fiber, sig);
+            fiber->last_value = child->last_value;
+            return sig;
+        }
+        // ... elided ... //
+        }
+        fiber->child = NULL;
+    ```
+
+    ```c
+            janet_vm.fiber->child = child;
+            JanetSignal sig = janet_continue(child, janet_wrap_nil(), &retreg);
+            if (sig != JANET_SIGNAL_OK && !(child->flags & (1 << sig))) {
+                if (is_interpreter) {
+                    janet_signalv(sig, retreg);
+                } else {
+                    janet_vm.fiber->child = NULL;
+                    janet_panicv(retreg);
+                }
+            }
+            janet_vm.fiber->child = NULL;
+    ```
+
 * What are all of the functions that can block apart from the
   following?
 

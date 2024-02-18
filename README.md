@@ -81,7 +81,7 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   scripting language - if you want more info on this, read the man
   pages for waitpid(2).
 
-* [Also notice how in sh.janet, `os/proc-wait` and `ev/read` run in
+* [Also notice how in `sh.janet`, `os/proc-wait` and `ev/read` run in
   parallel.](https://github.com/janet-lang/spork/blob/7a4eff4bfb9486a6c6079ee8bb12e6789cce4564/spork/sh.janet#L29-L31) (Note that `(:wait ...)` corresponds
   to a call to `os/proc-wait` and similarly that `(:read ...)`
   corresponds to a call to `ev/read` in this example.)
@@ -92,7 +92,7 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   and then output text in no particular manner can do this quite
   easily. There are a number of other bugs in the issue tracker where
   we figured this stuff out and made things work reliably with the
-  patterns in sh.janet.
+  patterns in `sh.janet`.
 
 Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922894977
 

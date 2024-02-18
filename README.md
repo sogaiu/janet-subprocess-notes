@@ -2,11 +2,16 @@
 
 ## Callables
 
+### Subprocess
+
 * [os/execute](doc/os_execute.md)
 * [os/spawn](doc/os_spawn.md)
 * [os/proc-wait](doc/os_proc-wait.md)
 * [os/proc-close](doc/os_proc-close.md)
 * [os/proc-kill](doc/os_proc-kill.md)
+
+### Fiber and Event Loop
+
 * [ev/with-deadline](doc/ev_with-deadline.md)
 * [ev/deadline](doc/ev_deadline.md)
 * [ev/cancel](doc/ev_cancel.md)

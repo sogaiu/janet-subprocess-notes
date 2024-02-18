@@ -95,6 +95,24 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   appears in the Task Communication section of the Event Loop page.
   There are threaded channels now so the text seems a bit off.
 
+* Add something about catching errors that result from using `cancel`
+  or `ev/cancel`.  For example, the code:
+
+    ```janet
+    (def fib
+      (coro
+        (try
+          (yield 1)
+          ([e]
+            (eprint "nifty")))))
+
+    (resume fib)
+
+    (cancel fib :error)
+    ```
+
+  results in the output "nifty".
+
 ## Questions
 
 * What does it mean for one fiber to be a child fiber of another

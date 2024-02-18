@@ -4,14 +4,11 @@
 
 `(ev/deadline sec &opt tocancel tocheck)`
 
-> may be the argument fibers have to be of the type that are on the
-> event loop?  seems the answer is yes, at least for `tocancel`.
-> there is no error indication when passing a normal fiber though.
-
 Set a deadline for a fiber `tocheck`.
 
 If `tocheck` is not finished after `sec` seconds, `tocancel` will be
-canceled as with `ev/cancel`.
+canceled as with `ev/cancel`.  Note that if `tocancel` is given, it
+must be a task / root fiber.
 
 If `tocancel` and `tocheck` are not given, they default to
 `(fiber/root)` and `(fiber/current)` respectively.

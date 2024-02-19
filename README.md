@@ -127,7 +127,13 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
 
   Have seen the pattern of setting / ensuring a fiber's child and then
   calling some kind of `janet_continue*` function, possibly followed
-  by setting the fiber's child field to `NULL`:
+  by setting the fiber's child field to `NULL`.
+
+  Perhaps this is setting things up so that if some type of thing
+  occurs while the child is being "continued", the parent can be used
+  in some appropriate way.  May be one thing this has to do with is
+  error-handling?
+
 
     ```c
         fiber->child = child;

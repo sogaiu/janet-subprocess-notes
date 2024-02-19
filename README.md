@@ -122,6 +122,45 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
 
 ## Questions
 
+* What do the following phrases mean in detail?
+
+  * Suspend
+
+    * "...suspend(ing|s) the current fiber"
+      * `ev/do-thread`
+      * `ev/give`
+      * `ev/take`
+      * `ev/write`
+      * `ev/sleep`
+      * `ev/thread`
+      * `net/read`
+      * `net/write`
+
+    * "(Cancel|Resume) a (new or suspended) fiber..."
+      * `ev/cancel`
+      * `resume`
+
+    * "...is suspended..." (`fiber/status`)
+      * :debug - the fiber is suspended in debug mode
+      * :user(0-7) - the fiber is suspended by a user signal
+      * :suspended - the fiber is waiting to be resumed by the scheduler
+
+  * Pending
+
+    * "...a pending fiber"
+      * `cancel`
+      * `resume`
+
+    * "pending" (`fiber/status`)
+      * :pending - the fiber has been yielded
+
+  * Schedule(d|r)
+
+    * `ev/all-tasks`
+    * `ev/call`
+    * `ev/go`
+    * `fiber/status`
+
 * What does it mean for one fiber to be a child fiber of another
   (from the perspective of Janet's C source code)?
 

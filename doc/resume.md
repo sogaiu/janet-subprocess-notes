@@ -15,26 +15,17 @@ the value from the next yield call in fiber.
 ## Sample Code
 
 ```janet
-(pp (resume (coro (yield :a))))
-```
-
-Sample output:
-
-```
+(resume (coro (yield :a)))
+# =>
 :a
 ```
 
 ```janet
-(pp (resume (fiber/new |(yield $))
-            -1))
-```
-
-Sample output:
-
-```
+(resume (fiber/new |(yield $))
+        -1)
+# =>
 7
 ```
-
 
 ## C Implementation
 

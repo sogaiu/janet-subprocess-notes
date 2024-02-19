@@ -140,7 +140,7 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
       * `ev/cancel`
       * `resume`
 
-    * "...is suspended..." (`fiber/status`)
+    * "...suspended..." (`fiber/status`)
       * :debug - the fiber is suspended in debug mode
       * :user(0-7) - the fiber is suspended by a user signal
       * :suspended - the fiber is waiting to be resumed by the scheduler

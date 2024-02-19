@@ -6,6 +6,11 @@
 
 Resume a fiber but have it immediately raise an error.
 
+> found the following sentence to be on the opaque side.  two of the
+> terms / phrases are not so clear.  one is "unwind" (this word only
+> appears once in the built-in docstrings). the other is "pending
+> fiber".
+
 This lets a programmer unwind a pending fiber.
 
 Returns the same result as `resume`.

@@ -16,6 +16,7 @@
 * [ev/deadline](doc/ev_deadline.md)
 * [ev/cancel](doc/ev_cancel.md)
 * [cancel](doc/cancel.md)
+* [resume](doc/resume.md)
 
 ## Glossary
 

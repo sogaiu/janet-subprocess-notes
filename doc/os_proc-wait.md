@@ -5,25 +5,9 @@
 `(os/proc-wait proc)`
 
 Suspend the current fiber until the subprocess completes. Returns the
-subprocess return code.
+subprocess exit code.
 
 Errors if called on a process more than once.
-
-> not sure what the following sentence this means, but also for
-> website docs?
-
-If cancelled with an error(?), it still finishes in the background.
-
-> the claim of the first sentence below seems to be referring to the
-> following -- at least on unix-like systems, the parent of a process
-> is expected to call wait (or similar) and only after this will the
-> operating system perform a removal of a process' entry from a
-> certain data structure ("process table").  this is generic info that
-> may not be relevant for windows.
-
-The process is not cleaned up by the operating system until after
-`os/proc-wait` finishes.  Thus, if `os/proc-wait` is not called, a
-process becomes a zombie process.
 
 ## Sample Code
 

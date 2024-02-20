@@ -23,7 +23,7 @@ Get the status of a fiber. The status will be one of:
 ## Sample Code
 
 ```janet
-(fiber/status (coro))
+(fiber/status (fiber/new (fn [] nil)))
 # =>
 :new
 ```

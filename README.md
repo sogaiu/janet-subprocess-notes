@@ -15,6 +15,7 @@
 * [ev/with-deadline](doc/ev_with-deadline.md)
 * [ev/deadline](doc/ev_deadline.md)
 * [ev/cancel](doc/ev_cancel.md)
+* [fiber/status](doc/fiber_status.md)
 * [cancel](doc/cancel.md)
 * [resume](doc/resume.md)
 

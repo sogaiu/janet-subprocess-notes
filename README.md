@@ -51,6 +51,13 @@
     scheduled to run by the event loop" or "a fiber on the event
     loop".
 
+* signal - a value "raised" by a fiber during its execution.  an
+  ancestor fiber that has an appropriate "mask" can trap / block /
+  capture (and examine) such values and take some kind of action.
+
+  note that this kind of signal is different from an operating
+  system's signal which is used by `os/proc-kill` and `os/sigaction`.
+
 * stream - one of two methods of communication between tasks.  (See
   channel for anotrher.)  They are wrappers around file descriptors
   and operate on streams of bytes.  Streams can communicate across

@@ -10,10 +10,10 @@ If `tocheck` is not finished after `sec` seconds, `tocancel` will be
 canceled as with `ev/cancel`.  Note that if `tocancel` is given, it
 must be a task / root fiber.
 
+`sec` is a number that can have a fractional part.
+
 If `tocancel` and `tocheck` are not given, they default to
 `(fiber/root)` and `(fiber/current)` respectively.
-
-`sec` is a number that can have a fractional part.
 
 Returns `tocancel`.
 

@@ -6,8 +6,8 @@
 
 Execute a program on the system.
 
-`args` is a tuple or array of strings representing an invocation of a
-prorgram with its arguments.
+`args` is a tuple or array of strings for an invocation of a program
+along with arguments.
 
 `flags` is a keyword that modifies how the program will execute.
 

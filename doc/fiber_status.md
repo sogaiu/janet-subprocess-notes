@@ -75,7 +75,7 @@ Get the status of a fiber. The status will be one of:
 
 ```janet
 (def fib
-  (fiber/new (fn [] (signal 0 :hi))
+  (fiber/new |(signal 0 :hi)
              :0))
 
 (resume fib)

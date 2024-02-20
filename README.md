@@ -54,4 +54,4 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
 
 * amano.kenji - code, discussion, feedback
 * bakpakin - code, discussion, tips
-* llmII - discussion, feedback, [spawn-utils](https://github.com/llmII/spawn-utils)
+* llmII - code, discussion, feedback, [spawn-utils](https://github.com/llmII/spawn-utils)

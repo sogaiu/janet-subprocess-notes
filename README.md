@@ -62,6 +62,11 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   "waiting" finishes.  So, if `os/proc-wait` is not called, waiting
   does not occur, and a process becomes a zombie process.
 
+  Thus, it is recommended to use `os/proc-wait` with `os/spawn`.
+
+* Use `ev/gather` to avoid race conditions (see spork's `sh.janet` for
+  samples).
+
 * If pipe streams created with :pipe keyword are not closed soon
   enough, a janet process can run out of file descriptors. They can be
   closed individually, or `os/proc-close` can close all pipe streams

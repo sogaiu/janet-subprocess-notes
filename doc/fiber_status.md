@@ -70,6 +70,7 @@ Get the status of a fiber. The status will be one of:
 [false :hey]
 
 (fiber/status fib)
+# =>
 :error
 ```
 

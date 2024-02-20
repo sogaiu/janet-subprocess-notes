@@ -6,9 +6,19 @@
 
 Get the status of a fiber. The status will be one of:
 
-> the prose term "suspended" is used below, but this doesn't
-> necessarily seem to correspond exactly to a status of :suspended...
-> or does it?
+> the prose term "suspended" is used below, but this doesn't seem to
+> correspond exactly to a status of :suspended.
+
+> :dead, :error, :debug, :pending, :user(0-9), :alive, and :new were
+> added to the docstring in 2018-11-16.  the associated text for each
+> state has not changed since then.
+
+> the name :suspended was given to what used to be called :user9
+> and was added to the docstring in 2023-04
+
+> thus the prose term "suspended" had been used for somewhat over four
+> years to describe that the "fiber is suspended" for :debug and
+> :user(0-9) before :suspended came about.
 
 * :dead - the fiber has finished
 * :error - the fiber has errored out

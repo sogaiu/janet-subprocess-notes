@@ -66,6 +66,10 @@ Get the status of a fiber. The status will be one of:
 ```janet
 (def fib (ev/spawn (forever (ev/sleep 1))))
 
+(fiber/status fib)
+# =>
+:new
+
 (ev/sleep 0)
 # =>
 nil

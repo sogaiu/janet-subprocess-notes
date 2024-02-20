@@ -55,8 +55,9 @@
   ancestor fiber that has an appropriate "mask" can trap / block /
   capture (and examine) such values and take some kind of action.
 
-  note that this kind of signal is different from an operating
-  system's signal which is used by `os/proc-kill` and `os/sigaction`.
+  note that this kind of signal is different from a POSIXy system's
+  signal.  For that type of signal, see `os/proc-kill` and
+  `os/sigaction`.
 
 * stream - one of two methods of communication between tasks.  (See
   channel for anotrher.)  They are wrappers around file descriptors

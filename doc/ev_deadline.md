@@ -13,6 +13,8 @@ must be a task / root fiber.
 If `tocancel` and `tocheck` are not given, they default to
 `(fiber/root)` and `(fiber/current)` respectively.
 
+`sec` is a number that can have a fractional part.
+
 Returns `tocancel`.
 
 ## Sample Code

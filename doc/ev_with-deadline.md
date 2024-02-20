@@ -2,12 +2,12 @@
 
 ## Information
 
-`(ev/with-deadline deadline & body)`
+`(ev/with-deadline sec & body)`
 
-Run a body of code with a deadline, such that if the code does not
-complete before the deadline is up, it will be canceled.
+Run a body of code with a deadline of `sec` seconds, such that if the
+code does not complete before the deadline is up, it will be canceled.
 
-`deadline` is a number of seconds that can have a fractional part.
+`sec` is a number that can have a fractional part.
 
 ## Sample Code
 

@@ -52,34 +52,6 @@ to raise an error.
    (eprint e)))
 ```
 
-> below seems true, but possibly better for website docs (e.g. the
-> functionality of `os/proc-close` is duplicating info from
-> `os/proc-close`'s docstring)
-
-If pipe streams created with :pipe keyword are not closed soon enough,
-a janet process can run out of file descriptors. They can be closed
-individually, or `os/proc-close` can close all pipe streams on proc.
-
-> though important, stuff below here appears to be generic programming
-> info (for certain operating systems?) and as such doesn't feel right
-> in a docstring.  in the website docs might be ok though.
-
-> is it always true that "pipe buffers become full", or is it that
-> it's a likely risk?  see for example
-> [this](https://unix.stackexchange.com/questions/11946/how-big-is-the-pipe-buffer)
-
-> current sense is that it's not always the case, more like "pipe
-> buffers can become full" and that can lead to issues.
-
-> it seems that enough needs to be read from the pipe buffer so that a
-> process can finish writing what it needs to
-
-If pipe streams aren't read (add "enough" or "sufficiently" here?)
-before `os/proc-wait` finishes, then pipe buffers can become full, and
-the process cannot finish because the process cannot print more on
-pipe buffers which are already full. If the process cannot finish,
-`os/proc-wait` cannot finish either.
-
 ## C Implementation
 
 [`os_execute_impl` in os.c](https://github.com/janet-lang/janet/blob/431ecd3d1a4caabc66b62f63c2f83ece2f74e9f9/src/core/os.c#L1098-L1366):

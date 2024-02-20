@@ -50,6 +50,29 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
 
 Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment-1922894977
 
+## Possible Website Doc Changes
+
+* At least on UNIX-like systems, the parent of a process is expected
+  to call wait (or similar) and only after this will the operating
+  system perform a removal of a process' entry from a certain data
+  structure ("process table").  Note that this does not apply to
+  Windows.
+
+  A process is not cleaned up by the operating system until after
+  "waiting" finishes.  So, if `os/proc-wait` is not called, waiting
+  does not occur, and a process becomes a zombie process.
+
+* If pipe streams created with :pipe keyword are not closed soon
+  enough, a janet process can run out of file descriptors. They can be
+  closed individually, or `os/proc-close` can close all pipe streams
+  on proc.
+
+* If pipe streams aren't read enough before `os/proc-wait` finishes,
+  then pipe buffers can become full, and the process cannot finish
+  because the process cannot print more on pipe buffers which are
+  already full.  If the process cannot finish, `os/proc-wait` cannot
+  finish either.
+
 ## Credits
 
 * amano.kenji - code, discussion, feedback

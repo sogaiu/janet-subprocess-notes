@@ -4,6 +4,8 @@
 
 `(os/proc-wait proc)`
 
+> what does "suspend" mean here?
+
 Suspend the current fiber until the subprocess completes. Returns the
 subprocess exit code.
 

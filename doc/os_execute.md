@@ -22,6 +22,9 @@ along with arguments.
 * :d - Don't try and terminate the process on garbage collection
   (allow spawning zombies).
 
+> may be better not to mention that core/stream values can work in
+> limited circumstances.  just don't mention them?
+
 `env` is a table or struct mapping environment variables to values.
 It can also contain the keys :in, :out, and :err, which allow
 redirecting stdio in the subprocess. The values associated with these
@@ -40,6 +43,9 @@ Returns the exit code of the program.
 (file/close of)
 (print (slurp fpath))
 ```
+
+Example of something that may work in some cases, but not recommended
+in general:
 
 ```janet
 (def [rs ws] (os/pipe))

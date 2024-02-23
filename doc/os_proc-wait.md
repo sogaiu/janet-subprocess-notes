@@ -4,10 +4,12 @@
 
 `(os/proc-wait proc)`
 
-> what does "suspend" mean here?
+> avoiding "suspend" below because that seems to have a technical
+> meaning elsewhere (e.g. :suspended for one of the statuses of a task
+> (so it's "suspended" on the event loop)
 
-Suspend the current fiber until the subprocess completes. Returns the
-subprocess exit code.
+Pauses execution of the current fiber until the subprocess
+completes. Returns the subprocess exit code.
 
 Errors if called on a process more than once.
 

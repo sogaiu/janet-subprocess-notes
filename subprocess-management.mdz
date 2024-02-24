@@ -1,0 +1,81 @@
+{:title "Subprocess Management"
+ :template "docpage.html"
+ # XXX: somewhere after fibers and the event loop pages?
+ #:order
+ }
+---
+
+Janet has support for starting, communicating with, and otherwise
+managing processes primarily via two approaches.  One is a simpler
+synchronous method provided by @code`os/execute`.  Another is a more
+complex way that gives finer-grained control via @code`os/spawn` and
+some other @code`os/` functions.
+
+## @code`os/execute`
+
+In the simpler approach, once the program is started to create a
+subprocess, `os/execute` does not return or error until the subprocess
+has finished executing.  The return value is the exit code of the
+created subprocess.
+
+The only required argument, @code`args`, is a tuple or array of
+strings to represent an invocation of a program along with its
+arguments.
+
+@codeblock[janet]```
+# prints: I drank what?
+# also returns 0, the exit code
+(os/execute ["janet" "-e" `(print "I drank what?")`] :p) # => 0
+```
+
+If there is a second argument, @code`flags`, it should be a keyword.
+@code`flags` changes how the program will execute.
+
+Note in the example above, @code`flags` is @code`:p`, which allows
+searching the current @code`PATH` for a binary to execute.  If
+@code`flags` does not contain @code`p`, the name of the program must
+be an absolute path.
+
+If @code`flags` contains @code`x`, `os/execute` will raise an error if
+the subprocess' exit code is non-zero.
+
+@codeblock[janet]```
+# prints: non-zero exit code
+(try
+  (os/execute ["janet" "-e" `(os/exit 1)`] :px)
+  ([_]
+    (eprintf "non-zero exit code")))
+```
+
+If @code`flags` contains @code`e`, `os/execute` should take a third
+argument, @code`env`, a table or struct, mapping environment variables
+to values.  The subprocess will be started using an environment
+constructed from @code`env`.  If @code`flags` does not contain
+@code`e`, the current environment is inherited.
+
+@codeblock[janet]```
+# prints "SITTING"
+# also returns 0
+(os/execute ["janet" "-e" `(pp (os/getenv "POSE"))`]
+            :pe {"POSE" "SITTING"}) # => 0
+```
+
+@code`env` can also contain the keys @code`:in`, @code`:out`, and
+@code`:err`, which allow redirecting standard IO in the subprocess.
+The associated values for these keys should be @code`core/file` values
+and these should be closed explicitly after the subprocess has
+completed.
+
+@codeblock[janet]```
+(def of (file/temp))
+
+(os/execute ["janet" "-e" `(print "tada!")`]
+            :pe {:out of}) # => 0
+
+(file/seek of :set 0)
+
+(file/read of :all) # => @"tada!\n"
+
+(file/close of) # => nil
+```
+

@@ -92,12 +92,12 @@ the started subprocess completes, @code`os/spawn` returns a
 `core/process` value.  This value represents a subprocess which may or
 may not have completed its execution.  In contrast to
 @code`os/execute`, which "waits" for the subprocess, @code`os/spawn`
-does not "wait" for the subprocess and it is recommended that the
-programmer explicitly do so for resource management and other purposes
-(this will be covered below).
+does not and it is recommended that the programmer explicitly do so
+for resource management and other purposes (this will be covered
+below).
 
 The arguments for @code`os/spawn` are the same as those of
-@code`os/execute`, so the required argument, @code`args`, is an
+@code`os/execute`, and the required argument, @code`args`, is an
 indexed value representing an invocation of a program with its
 arguments.
 

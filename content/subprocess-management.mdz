@@ -130,3 +130,23 @@ before "waiting" will result in a @code`nil` value.
 (get proc :return-code) # => 0
 ```
 
+The @code`os/proc-wait` function takes a single argument, @code`proc`,
+which should be a @code`core/process` value.  The return value is the
+exit code of the subprocess.  If @code`os/proc-wait` is called more
+than once for the same subprocess it will error.
+
+@codeblock[janet]```
+# prints: :sit-up
+(def proc (os/spawn ["janet" "-e" "(pp :sit-up)"] :p))
+
+(os/proc-wait proc) # => 0
+
+# prints: cannot wait twice on a process
+(try
+  (os/proc-wait proc)
+  ([e]
+    (eprint e))) # => nil
+```
+
+Note that @code`os/proc-wait` will cause the current fiber to pause
+execution until the subprocess completes.

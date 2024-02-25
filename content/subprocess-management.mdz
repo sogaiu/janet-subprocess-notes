@@ -238,7 +238,7 @@ it is the exit code of the subprocess associated with the
 If the @code`flag` keyword argument contains @code`x` for an
 invocation of @code`os/spawn` and the exit code of the subprocess is
 non-zero, calling a function such as @code`os/proc-wait`,
-@code`os/proc-close`, and @code`os/proc-kill` (if invoked to wait)
+@code`os/proc-close`, and @code`os/proc-kill` \(if invoked to wait)
 results in an error.
 
 @codeblock[janet]```

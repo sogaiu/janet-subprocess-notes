@@ -84,3 +84,50 @@ completed.
 (file/close of) # => nil
 ```
 
+## @code`os/spawn`
+
+Unlike @code`os/execute`, which returns an exit code (or errors) after
+the started subprocess completes, @code`os/spawn` returns a
+`core/process` value.  This value represents a subprocess which may or
+may not have completed its execution.  In contrast to
+@code`os/execute`, which "waits" for the subprocess, @code`os/spawn`
+does not "wait" for the subprocess and it is recommended that the
+programmer explicitly do so for resource management and other purposes
+(this will be covered below).
+
+The arguments for @code`os/spawn` are the same as those of
+@code`os/execute`, so the required argument, @code`args`, is an
+indexed value representing an invocation of a program with its
+arguments.
+
+@codeblock[janet]```
+# prints: :salutations
+# the returned value, p, is a `core/process` value
+(let [p (os/spawn ["janet" "-e" "(pp :salutaions)"] :p)]
+  (type p)) # => :core/process
+```
+
+Information about a `core/process` value can be accessed via keys such
+as @code`:in`, @code`:out`, @code`:err`, and @code`:return-code` (on
+UNIX-like platforms, there is an additional field @code`:pid`).
+
+Passing the `core/process` value to the function @code`os/proc-wait`
+causes Janet to "wait" for the subprocess to complete execution.  This
+is sometimes referred to as "rejoining" the subprocess.
+
+Once "waiting" has completed, the subprocess' exit code can be
+accessed via the @code`:return-code` key.  Accessing this information
+before "waiting" will result in a @code`nil` value.
+
+@codeblock[janet]```
+# prints: :relax
+# the returned value, p, is a `core/process` value
+(def p (os/spawn ["janet" "-e" "(pp :relax)"] :p))
+
+(get p :return-code) # => nil
+
+(os/proc-wait p) # => 0
+
+(get p :return-code) # => 0
+```
+

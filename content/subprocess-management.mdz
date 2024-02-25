@@ -165,13 +165,19 @@ than once for the same subprocess it will error.
 Note that the first call to @code`os/proc-wait` will cause the current
 fiber to pause execution until the subprocess completes.
 
-### @code`ev/gather`
+### @code`:pipe` and @code`ev/gather`
+
+For each of the @code`:in`, @code`:out`, and @code`:err` keys of the
+@code`env` argument to @code`os/spawn`, the associated value can be
+the keyword @code`:pipe`.  This causes @code`core/stream` values that
+can be read from and written to for appropriate standard IO of the
+subprocess.
 
 In order to avoid deadlocks (aka hanging), it's important to not
 redirect output to pipes that are not read from (sufficiently).
-Otherwise, pipe buffers can become full and this can lead to a writing
-process being prevented from completing its writing.  That in turn can
-result in the writing process being unable to finish executing.  Janet
+Otherwise, pipe buffers can become full and this can lead to a process
+being prevented from completing its writing.  That in turn can result
+in the writing process being unable to finish executing.  Janet
 provides the macro @code`ev/gather` to keep data flowing
 appropriately.
 

@@ -1,0 +1,79 @@
+{$ (use ./docpage) $}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{{ (dyn :title) }}</title>
+    <meta name="description" content="{{ (or (dyn :description) `Janet is a functional and imperative programming language. It runs on Windows, Linux, macOS, FreeBSD and *nix.`) }}">
+    <link rel="stylesheet" href="{{ (relative-url `/css/main.css`) }}" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="{{ (relative-url `/css/docpage.css`) }}" type="text/css" media="screen" charset="utf-8">
+    <link rel="shortcut icon" href="../assets/favicon.ico">
+
+    <!-- Open Graph -->
+    <meta property="og:description" content="{{ (or (dyn :description) `Janet is a functional and imperative programming language. It runs on Windows, Linux, macOS, FreeBSD and *nix.`) }}" />
+    <meta property="og:title" content="{{ (dyn :title) }}" />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+
+    <div id="toc-toggle" class="open">
+      <div class="bar topbar"></div>
+      <div class="bar"></div>
+      <div class="bar botbar"></div>
+    </div>
+    <iframe class="search-bar" src="https://duckduckgo.com/search.html?site=janet-lang.org&prefill=Search janet-lang.org" frameborder="0"></iframe>
+    <script charset="utf-8">
+      function toggleToc() {
+        var toggler = document.getElementById('toc-toggle');
+        var wrapper = document.querySelector('.toc');
+        wrapper.classList.toggle('toc-hidden');
+        toggler.classList.toggle('open');
+        if (window.localStorage) {
+          window.localStorage.setItem('show-toc', toggler.classList.contains('open'));
+        }
+      }
+      function addTocToggle() {
+        var el = document.getElementById('toc-toggle');
+        if (!window.localStorage || window.localStorage.getItem('show-toc') === 'true') {
+          toggleToc()
+        }
+        el.addEventListener('click', toggleToc);
+      }
+      window.addEventListener('DOMContentLoaded', addTocToggle);
+    </script>
+
+    {% (def page-prev (findrel url -1))
+       (def page-next (findrel url 1))
+       (def prev-url (relative-url (page-prev :url)))
+       (def next-url (relative-url (page-next :url))) %}
+
+    <div class="twocol">
+      <div class="toc show-toc">
+        <ul>
+          {{ (seq [sm :in (sitemap :pages)] (render-toc sm)) }}
+        </ul>
+      </div>
+      <div class="content-wrapper main-content">
+        <h4 class="subtitle">Janet {{janet/version}}-{{janet/build}} Documentation<br>(Other Versions:
+          {% (each v other-versions %}
+          <a href="{{ (relative-url (string v url)) }}">{{v}}</a>
+          {% ) %})</h4>
+        <h1 class="subtitle">{{ (dyn :title) }}</h1>
+        <div class="prevnext-bar">
+          <span class="prev"><a href="{{ prev-url }}"><span class="prevnext-text">{{ (page-prev :title) }}</span></a></span>
+
+          <span class="next"><a href="{{ next-url }}"><span class="prevnext-text">{{ (page-next :title) }}</span></a></span>
+        </div>
+        {{ content }}
+        <div class="prevnext-bar">
+          <span class="prev"><a href="{{ prev-url }}"><span class="prevnext-text">{{ (page-prev :title) }}</span></a></span>
+          <span class="next"><a href="{{ next-url }}"><span class="prevnext-text">{{ (page-next :title) }}</span></a></span>
+        </div>
+      </div>
+    </div>
+
+    {{ {:template (require "footer.html")} }}
+
+  </body>
+</html>

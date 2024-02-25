@@ -20,7 +20,7 @@ has a sense of @code`os/execute`.
 In the simpler approach, once the program is started to create a
 subprocess, @code`os/execute` does not return or error until the
 subprocess has finished executing.  Technically, @code`os/execute`
-waits on the created subprocess.  Further details regarding waiting
+\"waits" on the created subprocess.  Further details regarding waiting
 will be covered when discussing @code`os/spawn`.  The return value for
 @code`os/execute` is the exit code of the created subprocess.
 

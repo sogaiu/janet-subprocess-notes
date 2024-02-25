@@ -211,6 +211,7 @@ by using a third fiber using @code`ev/read` within @code`ev/gather`.
   (do
     (ev/write (proc :in) "know thyself")
     (ev/close (proc :in)))
+  # hi! i'm new here :)
   (ev/read (proc :out) :all buf)
   (set status (os/proc-wait proc)))
 

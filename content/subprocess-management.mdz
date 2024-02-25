@@ -102,8 +102,9 @@ for resource management and other purposes ("waiting" will be covered
 below).
 
 The arguments for @code`os/spawn` are the same as those of
-@code`os/execute`.  The required argument, @code`args`, is an indexed
-value representing an invocation of a program with its arguments.
+@code`os/execute`.  Again, the required argument, @code`args`, is a
+tuple or array value representing an invocation of a program with its
+arguments.
 
 @codeblock[janet]```
 # prints: :salutations
@@ -112,13 +113,16 @@ value representing an invocation of a program with its arguments.
   (type proc)) # => :core/process
 ```
 
+### @code`core/process` and @code`os/proc-wait`
+
 Information about a @code`core/process` value can be accessed via keys
 such as @code`:in`, @code`:out`, @code`:err`, and @code`:return-code`.
 On UNIX-like platforms, there is an additional @code`:pid` key.
 
-Passing the @code`core/process` value to the function @code`os/proc-wait`
-causes Janet to "wait" for the subprocess to complete execution.  This
-is sometimes referred to as "rejoining" the subprocess.
+Passing the @code`core/process` value to the @code`os/proc-wait`
+function causes Janet to "wait" for the subprocess to complete
+execution.  This is sometimes referred to as "rejoining" the
+subprocess.
 
 Once "waiting" has completed, the exit code for the subprocess can be
 obtained via the @code`:return-code` key.  Accessing this information
@@ -155,3 +159,118 @@ than once for the same subprocess it will error.
 
 Note that the first call to @code`os/proc-wait` will cause the current
 fiber to pause execution until the subprocess completes.
+
+### @code`ev/gather`
+
+In order to avoid deadlocks (aka hanging), it's important to not
+redirect output to pipes that are not read from (sufficiently).
+Otherwise, pipe buffers can become full and this can lead to a writing
+process being prevented from completing its writing.  That in turn can
+result in the writing process being prevented from finishing its
+execution.  Janet provides the macro @code`ev/gather` to keep data
+flowing appropriately.
+
+In the following example, @code`ev/write` and @code`os/proc-wait` are
+both run in parallel via @code`ev/gather`.  The @code`ev/gather` macro
+runs a number of fibers in parallel (in this case, two) on the event
+loop and returns the gathered results in an array.
+
+@codeblock[janet]```
+(def proc
+  (os/spawn ["janet" "-e" "(pp (file/read stdin :all))"]
+            :p {:in :pipe}))
+
+(var status nil)
+
+(ev/gather
+  (do
+    # leads to printing via subprocess: @"know thyself"
+    (ev/write (proc :in) "know thyself")
+    (ev/close (proc :in)))
+  (set status (os/proc-wait proc)))
+
+status # => 0
+```
+
+### @code`os/proc-close`
+
+The next example is a slightly modified version of the previous one
+involving the addition of reading standard output from the subprocess
+by using a third fiber using @code`ev/read` within @code`ev/gather`.
+
+@codeblock[janet]```
+(def proc
+  (os/spawn ["janet" "-e" "(pp (file/read stdin :all))"]
+            :p {:in :pipe :out :pipe}))
+
+(def buf @"")
+
+(var status nil)
+
+(ev/gather
+  (do
+    (ev/write (proc :in) "know thyself")
+    (ev/close (proc :in)))
+  (ev/read (proc :out) :all buf)
+  (set status (os/proc-wait proc)))
+
+status # => 0
+
+(os/proc-close proc) # => nil
+
+buf # => @"know thyself"
+```
+
+Note the use of the function @code`os/proc-close`.  This function
+takes a @code`core/process` value and closes all of the pipes that
+were created for it via @code`os/spawn`.  In the example above,
+@code`(proc :in)` had already been closed explicitly, but @code`(proc
+:out)` had not and is thus closed by @code`os/proc-close`.
+
+The @code`os/proc-close` function will also attempt to wait on the
+@code`core/process` value if it has not been waited on already.  Its
+return value is @code`nil` if waiting was not attempted and otherwise
+it is the exit code of the subprocess associated with the
+@code`core/process` value.
+
+### Effects of @code`:x`
+
+If the @code`flag` keyword argument contains @code`x` for an
+invocation of @code`os/spawn` and the exit code of the subprocess is
+non-zero, calling a function such as @code`os/proc-wait`,
+@code`os/proc-close`, and @code`os/proc-kill` (if invoked to wait)
+results in an error.
+
+@codeblock[janet]```
+(def proc
+  (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
+
+# prints: error
+(try
+  (os/proc-wait proc)
+  ([_]
+    (eprint "error")))
+```
+
+@codeblock[janet]```
+(def proc
+  (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
+
+# prints: error
+(try
+  (os/proc-close proc)
+  ([_]
+    (eprint "error")))
+```
+
+@codeblock[janet]```
+(def proc
+  (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
+
+# prints: error
+(try
+  (os/proc-kill proc true)
+  ([_]
+    (eprint "error")))
+```
+

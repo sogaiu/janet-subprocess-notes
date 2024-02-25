@@ -56,7 +56,8 @@ Edited content via: https://github.com/janet-lang/janet/issues/1386#issuecomment
   to call wait (or similar) and only after this will the operating
   system perform a removal of a process' entry from a certain data
   structure ("process table").  Note that this does not apply to
-  Windows.
+  Windows in exactly the same way, but it appears that not cleaning up
+  certain resources appropriately can be an issue there as well.
 
   A process is not cleaned up by the operating system until after
   "waiting" finishes.  So, if `os/proc-wait` is not called, waiting

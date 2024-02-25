@@ -246,31 +246,21 @@ results in an error.
 (def proc
   (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
 
-# prints: error
-(try
-  (os/proc-wait proc)
-  ([_]
-    (eprint "error")))
-```
-
-@codeblock[janet]```
-(def proc
-  (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
-
-# prints: error
-(try
-  (os/proc-close proc)
-  ([_]
-    (eprint "error")))
-```
-
-@codeblock[janet]```
-(def proc
-  (os/spawn ["janet" "-e" "(os/exit 1)"] :px))
+(defn invoke-an-error-raiser
+  [proc]
+  (def zero-one-or-two
+    (-> (os/cryptorand 8)
+        math/rng
+        (math/rng-int 3)))
+  # any of the following should raise an error
+  (case zero-one-or-two
+    0 (os/proc-wait proc)
+    1 (os/proc-close proc)
+    2 (os/proc-kill proc true)))
 
 # prints: error
 (try
-  (os/proc-kill proc true)
+  (invoke-an-error-raiser proc)
   ([_]
     (eprint "error")))
 ```

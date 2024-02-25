@@ -90,6 +90,11 @@ any combination of just @code`:in`, @code`:out`, and @code`:err`, the
 (file/close of) # => nil
 ```
 
+Although it is possible to successfully use @code`core/stream` values
+with @code`os/execute` in some cases, it may not work in certain cases
+and is thus not recommended in general.  @code`core/stream` values
+may, however, be used via @code`os/spawn`.
+
 ## @code`os/spawn`
 
 Unlike @code`os/execute`, which returns an exit code (or errors) after

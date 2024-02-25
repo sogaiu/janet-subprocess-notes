@@ -148,5 +148,5 @@ than once for the same subprocess it will error.
     (eprint e))) # => nil
 ```
 
-Note that @code`os/proc-wait` will cause the current fiber to pause
-execution until the subprocess completes.
+Note that the first call to @code`os/proc-wait` will cause the current
+fiber to pause execution until the subprocess completes.

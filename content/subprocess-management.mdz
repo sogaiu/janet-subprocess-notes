@@ -81,7 +81,7 @@ any combination of just @code`:in`, @code`:out`, and @code`:err`, the
 (def of (file/temp))
 
 (os/execute ["janet" "-e" `(print "tada!")`]
-            :pe {:out of}) # => 0
+            :p {:out of}) # => 0
 
 (file/seek of :set 0)
 

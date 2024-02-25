@@ -194,9 +194,9 @@ status # => 0
 
 ### @code`os/proc-close`
 
-The next example is a slightly modified version of the previous one
-involving the addition of reading standard output from the subprocess
-by using a third fiber using @code`ev/read` within @code`ev/gather`.
+The next example is a slightly modified version of the previous one.
+It involvies adding a third fiber (to @code`ev/gather`) for reading
+standard output from the subprocess via @code`ev/read`.
 
 @codeblock[janet]```
 (def proc

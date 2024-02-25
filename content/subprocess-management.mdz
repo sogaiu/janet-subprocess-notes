@@ -116,7 +116,7 @@ causes Janet to "wait" for the subprocess to complete execution.  This
 is sometimes referred to as "rejoining" the subprocess.
 
 Once "waiting" has completed, the exit code for the subprocess can be
-accessed via the @code`:return-code` key.  Accessing this information
+obtained via the @code`:return-code` key.  Accessing this information
 before "waiting" will result in a @code`nil` value.
 
 @codeblock[janet]```

@@ -14,6 +14,8 @@ For each of the :in, :out, and :err keys of the `env` argument, one
 can also pass in the keyword :pipe to get streams for standard IO of
 the subprocess that can be read from and written to.
 
+> the following description doesn't seem quite accurate.  see [this code](https://github.com/janet-lang/janet/blob/6032a6d65874514f88690aaf35e97f53a0ab6176/src/core/os.c#L978-L1004) for specifics
+
 The returned value proc has the fields :in, :out, :err, and the
 additional field :pid on unix-like platforms.  Use `(os/proc-wait
 proc)` to rejoin the subprocess. After waiting completes, proc gains a

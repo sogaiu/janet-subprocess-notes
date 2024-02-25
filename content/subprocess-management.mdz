@@ -102,9 +102,9 @@ value representing an invocation of a program with its arguments.
 
 @codeblock[janet]```
 # prints: :salutations
-# the returned value, p, is a core/process value
-(let [p (os/spawn ["janet" "-e" "(pp :salutaions)"] :p)]
-  (type p)) # => :core/process
+# the returned value, proc, is a core/process value
+(let [proc (os/spawn ["janet" "-e" "(pp :salutaions)"] :p)]
+  (type proc)) # => :core/process
 ```
 
 Information about a @code`core/process` value can be accessed via keys
@@ -121,12 +121,12 @@ before "waiting" will result in a @code`nil` value.
 
 @codeblock[janet]```
 # prints: :relax
-(def p (os/spawn ["janet" "-e" "(pp :relax)"] :p))
+(def proc (os/spawn ["janet" "-e" "(pp :relax)"] :p))
 
-(get p :return-code) # => nil
+(get proc :return-code) # => nil
 
-(os/proc-wait p) # => 0
+(os/proc-wait proc) # => 0
 
-(get p :return-code) # => 0
+(get proc :return-code) # => 0
 ```
 

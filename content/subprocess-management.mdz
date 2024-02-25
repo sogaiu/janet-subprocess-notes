@@ -169,9 +169,9 @@ fiber to pause execution until the subprocess completes.
 
 For each of the @code`:in`, @code`:out`, and @code`:err` keys of the
 @code`env` argument to @code`os/spawn`, the associated value can be
-the keyword @code`:pipe`.  This causes @code`core/stream` values that
-can be read from and written to for appropriate standard IO of the
-subprocess.
+the keyword @code`:pipe`.  This causes @code`core/stream` values to be
+used that can be read from and written to for appropriate standard IO
+of the subprocess.
 
 In order to avoid deadlocks (aka hanging), it's important to not
 redirect output to pipes that are not read from (sufficiently).

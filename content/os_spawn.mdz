@@ -120,8 +120,6 @@ standard output from the subprocess via @code`ev/read`.
 
 (def buf @"")
 
-(var status nil)
-
 (ev/gather
   (do
     (ev/write (proc :in) "know thyself")
@@ -131,7 +129,7 @@ standard output from the subprocess via @code`ev/read`.
   (do
     (ev/read (proc :out) :all buf)
     :read-done)
-  (set status (os/proc-wait proc))) # => @[:write-done :read-done 0]
+  (os/proc-wait proc)) # => @[:write-done :read-done 0]
 
 (os/proc-close proc) # => nil
 

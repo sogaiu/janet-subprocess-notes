@@ -177,11 +177,10 @@ of the subprocess.
 
 In order to avoid deadlocks (aka hanging), it's important to not
 redirect output to pipes that are not read from (sufficiently).
-Otherwise, pipe buffers can become full and this can lead to a process
-being prevented from completing its writing.  That in turn can result
-in the writing process being unable to finish executing.  Janet
-provides the macro @code`ev/gather` to keep data flowing
-appropriately.
+Otherwise, pipe buffers can become full and this can prevent a process
+from completing its writing.  That in turn can result in the writing
+process being unable to finish executing.  Janet provides the macro
+@code`ev/gather` to keep data flowing appropriately.
 
 In the following example, @code`ev/write` and @code`os/proc-wait` are
 both run in parallel via @code`ev/gather`.  The @code`ev/gather` macro

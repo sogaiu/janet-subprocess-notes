@@ -241,9 +241,9 @@ that were created for it via @code`os/spawn`.  In the example above,
 :out)` had not and is thus closed by @code`os/proc-close`.
 
 The @code`os/proc-close` function will also attempt to wait on the
-@code`core/process` value if it has not been waited on already.  Its
-return value is @code`nil` if waiting was not attempted and otherwise
-it is the exit code of the subprocess associated with the
+@code`core/process` value if it has not been waited on already.  The
+function's return value is @code`nil` if waiting was not attempted and
+otherwise it is the exit code of the subprocess associated with the
 @code`core/process` value.
 
 ### Effects of @code`:x`

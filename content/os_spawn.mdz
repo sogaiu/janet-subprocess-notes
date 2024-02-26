@@ -138,8 +138,8 @@ buf # => @"know thyself\n"
 
 Beware that if pipe streams are not closed soon enough, the process
 that created them (e.g. the @code`janet` executable) may run out of
-file descriptors due to process limits enforced by an operating
-system.
+file descriptors or handles due to process limits enforced by an
+operating system.
 
 Note the use of the function @code`os/proc-close` in the code above.
 This function takes a @code`core/process` value and closes all of the

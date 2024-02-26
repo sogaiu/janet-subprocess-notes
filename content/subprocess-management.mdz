@@ -235,8 +235,8 @@ buf # => @"know thyself"
 ```
 
 Note the use of the function @code`os/proc-close`.  This function
-takes a @code`core/process` value and closes all of the pipes that
-were created for it via @code`os/spawn`.  In the example above,
+takes a @code`core/process` value and closes all of the unclosed pipes
+that were created for it via @code`os/spawn`.  In the example above,
 @code`(proc :in)` had already been closed explicitly, but @code`(proc
 :out)` had not and is thus closed by @code`os/proc-close`.
 

@@ -189,19 +189,16 @@ loop and returns the gathered results in an array.
 
 @codeblock[janet]```
 (def proc
-  (os/spawn ["janet" "-e" "(pp (file/read stdin :all))"]
+  (os/spawn ["janet" "-e" "(print (file/read stdin :all))"]
             :p {:in :pipe}))
-
-(var status nil)
 
 (ev/gather
   (do
-    # leads to printing via subprocess: @"know thyself"
+    # leads to printing via subprocess: know thyself
     (ev/write (proc :in) "know thyself")
-    (ev/close (proc :in)))
-  (set status (os/proc-wait proc)))
-
-status # => 0
+    (ev/close (proc :in))
+    :done)
+  (os/proc-wait proc)) # => @[:done 0]
 ```
 
 ### @code`os/proc-close`
@@ -212,7 +209,7 @@ standard output from the subprocess via @code`ev/read`.
 
 @codeblock[janet]```
 (def proc
-  (os/spawn ["janet" "-e" "(pp (file/read stdin :all))"]
+  (os/spawn ["janet" "-e" "(print (file/read stdin :all))"]
             :p {:in :pipe :out :pipe}))
 
 (def buf @"")
@@ -222,16 +219,17 @@ standard output from the subprocess via @code`ev/read`.
 (ev/gather
   (do
     (ev/write (proc :in) "know thyself")
-    (ev/close (proc :in)))
+    (ev/close (proc :in))
+    :write-done)
   # hi! i'm new here :)
-  (ev/read (proc :out) :all buf)
-  (set status (os/proc-wait proc)))
-
-status # => 0
+  (do
+    (ev/read (proc :out) :all buf)
+    :read-done)
+  (set status (os/proc-wait proc))) # => @[:write-done :read-done 0]
 
 (os/proc-close proc) # => nil
 
-buf # => @"know thyself"
+buf # => @"know thyself\n"
 ```
 
 Note the use of the function @code`os/proc-close`.  This function

@@ -70,8 +70,8 @@ contain @code`e`, the current environment is inherited.
 The @code`env` dictionary can also contain the keys @code`:in`,
 @code`:out`, and @code`:err`, which allow redirecting standard IO in
 the subprocess.  The associated values for these keys should be
-@code`core/file` values and these should be closed explicitly after
-the subprocess has completed.
+@code`core/file` values and these should be closed explicitly (e.g. by
+calling @code`file/close`) after the subprocess has completed.
 
 Note that the @code`flags` keyword argument only needs to contain
 @code`e` if making use of environment variables.  That is, for use of

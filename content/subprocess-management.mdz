@@ -110,7 +110,7 @@ in more detail below).
 
 The arguments for @code`os/spawn` are the same as those of
 @code`os/execute`.  Again, the required argument, @code`args`, is a
-tuple or array value representing an invocation of a program with its
+tuple or array representing an invocation of a program with its
 arguments.
 
 @codeblock[janet]```

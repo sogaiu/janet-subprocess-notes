@@ -35,7 +35,8 @@ arguments.
 ```
 
 If there is a second argument, @code`flags`, it should be a keyword.
-@code`flags` changes how the program will execute.
+@code`flags` can affect program launching and subprocess execution
+characteristics.
 
 Note in the example above, @code`flags` is @code`:p`, which allows
 searching the current @code`PATH` for a binary to execute.  If
@@ -130,8 +131,8 @@ execution.  This is sometimes referred to as "rejoining" the
 subprocess.
 
 Once "waiting" has completed, the exit code for the subprocess can be
-obtained via the @code`:return-code` key.  Accessing this information
-before "waiting" will result in a @code`nil` value.
+obtained via the @code`:return-code` key.  Accessing this key before
+"waiting" will result in a @code`nil` value.
 
 @codeblock[janet]```
 # prints: :relax
